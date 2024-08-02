@@ -86,12 +86,13 @@ pipeline {
                     sh "echo manifest update success"
                 }
             }
-        slackSend (
+            steps{
+                slackSend (
                     channel: '#한석',
                     color: '#FFFF00',
                     message: "STARTED: ${currentBuild.number}"
                 )
-
+            }
         }
     }
 }
