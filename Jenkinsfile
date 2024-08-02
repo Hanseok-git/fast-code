@@ -67,6 +67,12 @@ pipeline {
                 sh "git add ."
                 sh "git commit -m 'Update tag to ${currentBuild.number}'"
                 sh "git push origin main"
+
+                slackSend (
+                    channel: '#dep02',
+                    color: '#FFFF00',
+                    message: "STARTED: ${currentBuild.number}"
+                )
             }
             post {
                 failure {
@@ -78,10 +84,6 @@ pipeline {
             }
         }
     }
-                slackSend (
-                    channel: '#dep02',
-                    color: '#FFFF00',
-                    message: "STARTED: ${currentBuild.number}"
-                )
+                
 
             
