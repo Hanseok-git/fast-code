@@ -28,7 +28,8 @@ pipeline {
 }
         stage('docker image build') {
             steps {
-                sh "docker build -t ${DOCKERHUB}:11"
+                sh "docker build -t ${DOCKERHUB}:${currentBuild.number} ."
+                sh "docker build -t ${DOCKERHUB}:latest ."
             }
             post {
                 failure {
