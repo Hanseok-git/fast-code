@@ -85,20 +85,6 @@ pipeline {
                 }
             }
         }
-    
-        stage('start5') {
-            steps {
-                sh "echo hello jenkins!!!"
-            }
-            post {
-                failure {
-                    sh "echo failed"
-                }
-                success {
-                    sh "echo success"
-                }
-            }
-        }
     }
 }
         
