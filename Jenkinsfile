@@ -86,7 +86,7 @@ pipeline {
                     sh "echo manifest update success"
                 }
             }
-            steps{
+            steps {
                 slackSend (
                     channel: '#한석',
                     color: '#FFFF00',
