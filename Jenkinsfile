@@ -14,7 +14,6 @@ pipeline {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [],
                 userRemoteConfigs: [[credentialsId: GITCREDENTIAL, url: GITWEBADD]]])
-
             }
             post {
                 failure {
@@ -25,13 +24,10 @@ pipeline {
                 }
             }
         }
-        stage('docker image build') {
+        stage('Docker Image Build') {
             steps {
                 sh "docker build -t ${DOCKERHUB}:${currentBuild.number} ."
                 sh "docker build -t ${DOCKERHUB}:latest ."
-                // currentBuild.number 젠킨스가 제공하는 빌드넘버 변수
-                // oolralra/fast:<빌드넘버> 와 같은 이미지가 만들어질 예정.
-               
             }
             post {
                 failure {
@@ -42,7 +38,7 @@ pipeline {
                 }
             }
         }
-        stage('docker image push') {
+        stage('Docker Image Push') {
             steps {
                 withDockerRegistry(credentialsId: DOCKERHUBCREDENTIAL, url: '') {
                     sh "docker push ${DOCKERHUB}:${currentBuild.number}"
@@ -54,28 +50,22 @@ pipeline {
                     sh "docker image rm -f ${DOCKERHUB}:${currentBuild.number}"
                     sh "docker image rm -f ${DOCKERHUB}:latest"
                     sh "echo push failed"
-                    // 성공하든 실패하든 로컬에 있는 도커이미지는 삭제
                 }
                 success {
                     sh "docker image rm -f ${DOCKERHUB}:${currentBuild.number}"
                     sh "docker image rm -f ${DOCKERHUB}:latest"
                     sh "echo push success"
-                    // 성공하든 실패하든 로컬에 있는 도커이미지는 삭제
                 }
             }
         }
-        stage('EKS manifest file update') {
+        stage('EKS Manifest File Update') {
             steps {
                 git credentialsId: GITCREDENTIAL, url: GITSSHADD, branch: 'main'
                 sh "git config --global user.email ${GITEMAIL}"
                 sh "git config --global user.name ${GITNAME}"
                 sh "sed -i 's@${DOCKERHUB}:.*@${DOCKERHUB}:${currentBuild.number}@g' fast.yml"
-
                 sh "git add ."
-                sh "git branch -M main"
-                sh "git commit -m 'fixed tag ${currentBuild.number}'"
-                sh "git remote remove origin"
-                sh "git remote add origin ${GITSSHADD}"
+                sh "git commit -m 'Update tag to ${currentBuild.number}'"
                 sh "git push origin main"
             }
             post {
@@ -86,16 +76,12 @@ pipeline {
                     sh "echo manifest update success"
                 }
             }
-            steps {
+        }
+    }
                 slackSend (
-                    channel: '#한석',
+                    channel: '#dep02',
                     color: '#FFFF00',
                     message: "STARTED: ${currentBuild.number}"
                 )
-            }
-        }
-    }
-}
 
-        
-    
+            
