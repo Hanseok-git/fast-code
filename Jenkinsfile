@@ -12,6 +12,8 @@ pipeline {
                 }
                 success {
                     sh "echo success"
+                }
+            }
         }
     }
 }
