@@ -41,7 +41,7 @@ stages {
             }
         }
     }
-}
+
 stages {
         stage('start3') {
             steps {
@@ -57,7 +57,7 @@ stages {
             }
         }
     }
-}
+
 stages {
         stage('start4') {
             steps {
@@ -73,7 +73,7 @@ stages {
             }
         }
     }
-}
+
 stages {
         stage('start5') {
             steps {
@@ -89,4 +89,3 @@ stages {
             }
         }
     }
-}
