@@ -69,7 +69,7 @@ pipeline {
                 sh "git push origin main"
 
                 slackSend (
-                    channel: '#dep02',
+                    channel: '#한석',
                     color: '#FFFF00',
                     message: "STARTED: ${currentBuild.number}"
                 )
