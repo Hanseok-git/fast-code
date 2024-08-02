@@ -24,8 +24,6 @@ pipeline {
                 }
             }
         }
-    }
-}
         stage('docker image build') {
             steps {
                 sh "docker build -t ${DOCKERHUB}:${currentBuild.number} ."
@@ -86,4 +84,7 @@ pipeline {
                 }
             }
         }
+    }
+}
+        
     
