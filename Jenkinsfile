@@ -26,10 +26,9 @@ pipeline {
         }
     }
 }
-stages {
-        stage('start2') {
+        stage('docker image build') {
             steps {
-                sh "echo hello jenkins!!!"
+                sh "docker build -t ${DOCKERHUB}:11"
             }
             post {
                 failure {
@@ -40,9 +39,7 @@ stages {
                 }
             }
         }
-    }
-
-stages {
+    
         stage('start3') {
             steps {
                 sh "echo hello jenkins!!!"
@@ -56,9 +53,7 @@ stages {
                 }
             }
         }
-    }
-
-stages {
+    
         stage('start4') {
             steps {
                 sh "echo hello jenkins!!!"
@@ -72,9 +67,7 @@ stages {
                 }
             }
         }
-    }
-
-stages {
+    
         stage('start5') {
             steps {
                 sh "echo hello jenkins!!!"
@@ -88,4 +81,4 @@ stages {
                 }
             }
         }
-    }
+    
